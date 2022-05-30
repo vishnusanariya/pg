@@ -1,0 +1,12 @@
+body{
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    height:900vh;
+}
+.container{
+    height:700px;
+
+}
+.form-control{
+    width: 300px;
+}
