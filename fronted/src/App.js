@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import React from 'react'
+import Error from './components/Error';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
     <Route exact path='/' element={<Home/>}/>
     <Route exact path='/signin' element={<Login/>}/>
     <Route exact path='/register' element={<Register/>}/>
+    <Route path='*' element={<Error/>}/>
     </Routes>
     </>
   );
