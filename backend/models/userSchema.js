@@ -11,7 +11,7 @@ const userSchema = new Schema({
   address:{type:String,required:true},
   pincode:{type:Number,required:true},
   accomodation_facilities:{type:String,required:true},
-  lodging:{type:Boolean,required:true},
+  lodging:{type:String,required:true},
   rent:{type:Number,required:true},
   person:{type:Number,required:true},
   password:{type:String,required:true},

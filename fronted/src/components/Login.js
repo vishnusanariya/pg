@@ -15,22 +15,13 @@ function Login() {
           {/* <!-- Email input --> */}
           <div className="form-outline mb-4">
             <input type="email" id="form1Example13" className="form-control form-control-lg" />
-            <label className="form-label" for="form1Example13">Email address</label>
+            <label className="form-label" htmlFor="form1Example13">Email address</label>
           </div>
 
           {/* <!-- Password input --> */}
           <div className="form-outline mb-4">
             <input type="password" id="form1Example23" className="form-control form-control-lg" />
-            <label className="form-label" for="form1Example23">Password</label>
-          </div>
-
-          <div className="d-flex justify-content-between align-items-center ml-0">
-            {/* <!-- Checkbox --> */}
-            <div className="form-check ">
-              <input className="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-              <label className="form-check-label" for="form1Example3"> Remember me </label>
-            </div>
-            <a href="#!">Forgot password?</a>
+            <label className="form-label" htmlFor="form1Example23">Password</label>
           </div>
 
           {/* <!-- Submit button --> */}
