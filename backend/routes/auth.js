@@ -4,6 +4,7 @@ const db = require('../db');
 const user = require('../models/userSchema');
 const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
+const authenticate = require('../middleware/authenticate');
 router.get('/', (req, res) => {
     res.send('Hello from server');
 })
@@ -87,4 +88,10 @@ router.post('/signin',async (req,res)=>{
         console.log(err);
     }
 });
+
+//view PGs module
+router.get('/viewPGs',authenticate,async (req,res)=>{
+    console.log('viewPGs');
+}
+);
 module.exports = router;
