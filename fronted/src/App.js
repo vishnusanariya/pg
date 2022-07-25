@@ -7,6 +7,7 @@ import Register from './components/Register';
 import ViewPgs from './components/ViewPgs';
 import React from 'react'
 import Error from './components/Error';
+import RegisterPg from './components/RegisterPg';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
     <Route exact path='/signin' element={<Login/>}/>
     <Route exact path='/register' element={<Register/>}/>
     <Route exact path='/viewPgs' element={<ViewPgs/>}/>
+    <Route exact path='/registerPgs' element={<RegisterPg/>}/>
     <Route path='*' element={<Error/>}/>
     </Routes>
     </>

@@ -7,13 +7,6 @@ const SECRET_KEY='payingguestrentalsystemprojectinmernstack';
 const userSchema = new Schema({
   name:{type:String,required:true,},
   email:{type:String,required:true},
-  phone_no:{type:String,required:true},
-  address:{type:String,required:true},
-  pincode:{type:Number,required:true},
-  accomodation_facilities:{type:String,required:true},
-  lodging:{type:String,required:true},
-  rent:{type:Number,required:true},
-  person:{type:Number,required:true},
   password:{type:String,required:true},
   cpassword:{type:String,required:true},
   tokens:[

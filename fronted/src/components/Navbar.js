@@ -17,6 +17,12 @@ function Navbar() {
         <NavLink className="nav-link" to= "/">Home <span className="sr-only">(current)</span></NavLink>
       </li>
       <li className="nav-item">
+        <NavLink className="nav-link" to= "/viewPgs">view pgs</NavLink>
+      </li>
+      <li className="nav-item">
+        <NavLink className="nav-link" to= "/registerPgs">register pgs</NavLink>
+      </li>
+      <li className="nav-item">
         <NavLink className="nav-link" to= "/signin">Login</NavLink>
       </li>
       <li className="nav-item">
