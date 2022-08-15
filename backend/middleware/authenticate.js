@@ -1,18 +1,28 @@
 const jwt=require('jsonwebtoken');
 const user=require('../models/userSchema');
+const SECRET_KEY='payingguestrentalsystemprojectinmernstack';
 const authenticate = async (req,res,next)=>{
     try{
-        const token=req.cookies.jwt;
-        const verifyToken=jwt.verify(token,process.env.SECRET_KEY);
-        const userData=await user.findOne({_id:verifyToken._id,"tokens:token":token});
-        if(!userData){throw new Error('user not found');}
+        const {jwttoken}=req.body;
+        const token=jwttoken;
+        console.log('token in authenticate:',token);
+        if(!token){
+            return res.status(401).json({error:'please login'});
+        }
+        const decoded=jwt.verify(token,SECRET_KEY);
+        const u=await user.findOne({_id:decoded._id, 'tokens.token':token});
+        if(!u){
+            return res.status(401).json({error:'please login uuuuu'});
+        }
+        req.user=u;
         req.token=token;
-        req.user=userData;
-        req.userID=userData._id;
         next();
-    }
-    catch(err){
+    }catch(err){
         console.log(err);
     }
+
+
+
+   
 }
 module.exports = authenticate;

@@ -3,10 +3,11 @@ const router = express.Router()
 const db = require('../db');
 const user = require('../models/userSchema');
 const bcrypt=require('bcryptjs');
-const jwt=require('jsonwebtoken');
+const jsonwt=require('jsonwebtoken');
 const authenticate = require('../middleware/authenticate');
 const userSchema = require('../models/userSchema');
 const pgSchema = require('../models/pgSchema');
+const SECRET_KEY='payingguestrentalsystemprojectinmernstack';
 router.get('/', (req, res) => {
     res.send('Hello from server');
 })
@@ -66,25 +67,26 @@ router.post('/signin',async (req,res)=>{
         
         const userlogin= await user.findOne({email:email});
         if(userlogin){
-            // console.log(userlogin);
-           
-            const isValid=bcrypt.compare(password,userlogin.password);
-            const token=await userlogin.generateAuthToken();
-            console.log(token);
-            res.cookie('jwt',token,{
-                expires:new Date(Date.now()+300000000),
-                httpOnly:true,
-            });
-            if(!isValid){
-                res.status(400).json({error:'invalid credentials'})
-            }
-            else{
-                res.json({msg:'user login success'});
-            }
+            console.log('user found');
+            const isValid=await bcrypt.compare(password,userlogin.password);
+            //generate token
+            if(isValid=== true){
+                console.log('password is valid');
+                const token=jsonwt.sign({_id:userlogin._id},SECRET_KEY);
+                userlogin.tokens=userlogin.tokens.concat({token});
+                // res.cookie('jwt',SECRET_KEY,{
+                //     expires:new Date(Date.now()+900000000),
+                //     httpOnly:false,
+                // })
+                userlogin.save();
+                res.status(200).send({msg:'cookie generated',jwttoken:token});
+            }else{
+                res.status(422).json({err:'invalid password'});
+            }          
         }
         else{
-            res.status(400).json({error:'invalid credentials'});
-            console.log('success login')
+            res.status(402).json({error:'user not found'});
+            console.log('user not find')
         }
     }catch(err){
         console.log(err);
@@ -120,8 +122,22 @@ router.post('/registerPG',async (req,res)=>{
 );
 //view PGs module
 router.post('/viewPGs',async (req,res)=>{
-    const b= await pgSchema.find();
-    res.send(b);
+   const {jwt}=req.body;
+   console.log('token in auth:',jwt);
+   if(!jwt){
+    res.status(999).send({error:'please login first'})
+   }else{
+
+    const decoded=jsonwt.verify(jwt,SECRET_KEY);
+    const u=await user.findOne({_id:decoded._id, 'tokens.token':jwt});
+    if(!u){
+        return res.status(401).json({error:'please login uuuuu'});
+        }
+    else{
+        const pgs=await pgSchema.find();
+        res.status(200).send(pgs);
+    }
+}
 }
 );
 module.exports = router;

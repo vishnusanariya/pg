@@ -1,19 +1,35 @@
 import React from 'react';
 import './ViewPgs.css';
+import {useNavigate,useLocation} from 'react-router-dom';
 import axios from 'axios';
 function viewPgs() {
+  const navigate=useNavigate();
+  const {state}=useLocation();
+  const {jwt}=state;
+  console.log('token in viewpg:',jwt);
   const [pgs, setPgs] = React.useState([]);
-  React.useEffect(() => {
-
-    axios.post('http://localhost:5000/viewPGS')
+  const authorised=async()=>{
+    try {
+      axios.post('http://localhost:5000/viewPGS',{jwt})
       .then(res => {
         console.log(res.data);
         setPgs(res.data);
       })
       .catch(err => {
         console.log(err);
-        
-      })
+        if(err.response.status ===999){
+          alert(" unauthorised user please login first ");
+          navigate('/signin');
+        }
+      });
+    }catch(err){
+      console.log(err);
+      navigate('/signin');
+    }
+    
+  }
+  React.useEffect(() => {
+    authorised();
   }, []);
 
   return (

@@ -1,32 +1,31 @@
+import axios from 'axios';
 import React,{useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import './Login.css'
 function Login() {
   const navigate=useNavigate();
-  const [useremail,setUseremail] = useState('');
+  const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const LoginHandler = async (e) => {
     e.preventDefault();
-    console.log(useremail,password);
-    const res=await fetch('/signin',{
-      method:'post',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        email:useremail,
-        password:password
-      })
-    });
-    const data=res.json();
-    console.log(data);
-    if(data.error || !data){
-      alert(data.error);
+    console.log(email,password);
+    console.log("requeting..." )
+    axios.post('http://localhost:5000/signin',{email,password})
+    .then(res=>{
+      console.log(res);
+      console.log(res.data.jwttoken);
+      let jwt=res.data.jwttoken;
+      console.log('jwt:',jwt);
+      alert('login success');
+      navigate('/viewPgs',{state:{jwt}});
+
+    }).catch(err=>{
+      console.log(err);
+      if(err.response.status === 402){alert('user not registered');navigate('/register')};
+      if(err.response.status === 422){
+      alert('credential failed try again');
     }
-    else{
-      alert('Login Successful');
-      navigate('/viewPgs');
-    }
+    })
   }
   return (
     <>
@@ -41,7 +40,7 @@ function Login() {
         <form method='POST' action='/signin'>
           {/* <!-- Email input --> */}
           <div className="form-outline mb-4">
-            <input type="email" id="form1Example13"  name="useremail" className="form-control form-control-lg" value={useremail} onChange={(e)=>setUseremail(e.target.value)} />
+            <input type="email" id="form1Example13"  name="email" className="form-control form-control-lg" value={email} onChange={(e)=>setEmail(e.target.value)} />
             <label className="form-label" htmlFor="form1Example13">Email address</label>
           </div>
 

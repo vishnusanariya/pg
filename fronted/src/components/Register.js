@@ -5,7 +5,7 @@ import './Register.css'
 function Register() {
   const navigate=useNavigate();
   const [user,setUser]=useState({
-    name:"",email:"",password:"",cpassword:"",address:"",pincode:"",phone_no:"",rent:"",person:"",accomodation_facilities:"",lodging:""
+    name:"",email:"",password:"",cpassword:""
   });
   let fieldName,fieldValue;
   const handleInputs=(e)=>{
